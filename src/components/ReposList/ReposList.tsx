@@ -24,6 +24,8 @@ const ReposList: FC<RepoListProps> = ({ repos }) => {
     setSearchString(event.target.value);
   };
 
+  console.log(currentPage, currentRepos);
+
   const search = (searchString: string) => {
     const currentRepos = repos.filter((repo) =>
       repo.name.includes(searchString)
@@ -31,7 +33,13 @@ const ReposList: FC<RepoListProps> = ({ repos }) => {
     setCurrentRepos(currentRepos);
   };
 
-  useEffect(() => search(searchString), [searchString]);
+  useEffect(() => {
+    if (searchString) search(searchString);
+  }, [searchString]);
+
+  useEffect(() => {
+    setCurrentRepos(repos.slice(firstReposIndex, lastReposIndex));
+  }, [currentPage]);
 
   return (
     <>
